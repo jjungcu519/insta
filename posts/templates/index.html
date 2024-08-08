@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h2>인덱스페이지입니다.</h2>
+
+    {% for post in posts %}
+        {% include '_card.html' %}
+    {% endfor %}
+{% endblock %}
