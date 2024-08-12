@@ -8,6 +8,14 @@
     <img src="{{post.image.url}}" class="card-img-top" alt="...">
     <div class="card-body">
       <!-- <h5 class="card-title">Card title</h5> -->
+       <div>
+         <a href="{% url 'posts:like' post_id=post.id %}">
+           <i class="bi bi-suit-heart"></i>
+         </a>
+         <span>
+          {{post.like_users.all}}명이 좋아합니다.
+         </span>
+       </div>
       <p class="card-text">{{post.content}}</p>
       <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
     </div>
