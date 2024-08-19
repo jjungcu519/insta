@@ -1,14 +1,17 @@
 {% load bootstrap5 %}
 
-<div class="row card my-3 offset-2 col-6 col-md-4">
+<div class="row">
+  <div class="card col-md-12 my-3">
   <div class = "card-header">
       <img class="rounded-circle" src="{{post.user.profile_image.url}}" alt="" width="30px">
-    {{post.user}}
+      <a href="{% url 'accounts:profile' username=post.user.username %}">
+      {{post.user}}
+      </a>
   </div>
-    <img src="{{post.image.url}}" class="card-img-top" alt="...">
-    <div class="card-body">
+  <img src="{{post.image.url}}" class="img-fluid" alt="...">
+  <div class="card-body">
       <!-- <h5 class="card-title">Card title</h5> -->
-       <div>
+      <div>
           {% if user in post.like_users.all %}
             <i class="bi bi-heart-fill" style="color:red;" data-post-id="{{post.id}}">{{post.like_users.all|length}}</i>
           {% else %}
@@ -18,27 +21,27 @@
           명이 좋아합니다.
          </span>
        </div>
-      <p class="card-text">{{post.content}}</p>
-      <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-    </div>
-    <div class="card-footer d-line">
-      <form action="{% url 'posts:comment_create' post_id=post.id %}" method="POST">
-        {% csrf_token %}
-        <div class="row">
-          <div class="col-9">
-            {% bootstrap_form form show_label=False %}
-          </div>
-          <div class="col-2">
-            <input type="submit" class="btn btn-primary btn-sm">
-          </div>
+        <p class="card-text">{{post.content}}</p>
+        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  </div>
+  <div class="card-footer d-line">
+    <form action="{% url 'posts:comment_create' post_id=post.id %}" method="POST">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-9">
+          {% bootstrap_form form show_label=False %}
         </div>
-      </form>
-      <div>
-        {% for comment in post.comment_set.all %}
-          <li>
-            {{comment.user}} : {{comment.content}}
-          </li>
-        {% endfor %}
+        <div class="col-2">
+          <input type="submit" class="btn btn-primary btn-sm">
+        </div>
       </div>
+    </form>
+      {% for comment in post.comment_set.all %}
+        <li>
+          {{comment.user}} : {{comment.content}}
+        </li>
+      {% endfor %}
+
     </div>
   </div>
+</div>

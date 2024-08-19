@@ -1,5 +1,7 @@
+from .models import User
 from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib. auth import login as auth_login
 from django.contrib. auth import logout as auth_logout
 
@@ -38,3 +40,29 @@ def login(request):
 def logout(request):
     auth_logout(request)
     return redirect('posts:index')
+
+
+
+def profile(request, username):
+    user_info = User.objects.get(username=username)
+
+    context = {
+        'user_info' : user_info,
+        # 'user' : 로그인한 유저
+    }
+
+    return render(request, 'profile.html', context)
+
+def follow(request, username):
+    me = request.user
+    you = User.objects.get(username=username)
+
+    #if you in me.followings.all():
+    if me in you.followers.all():
+        you.followers.remove(me)
+        # me.followings.remove(you)
+    else:
+        you.followers.add(you)
+        #me.followings.add(you)
+
+    return redirect('accounts:profile', username=username)
